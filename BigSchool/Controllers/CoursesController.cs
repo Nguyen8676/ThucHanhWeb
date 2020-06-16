@@ -74,6 +74,7 @@ namespace BigSchool.Controllers
             return View(viewModel);
         }
 
+       
         [Authorize]
         public ActionResult Mine()
         {
