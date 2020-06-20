@@ -19,7 +19,7 @@
                     </div>
 
                 </div>
-
+            
                 <div class="details">
                     <span class="lecturer">
                         @course.Lecturer.Name
@@ -34,7 +34,15 @@
                     </span>
                     @if (Model.ShowAction)
                     {
-                        <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">going ?</button>
+                        if (!Model.attendances.Any(p => p == course.Id))
+                        {
+                            <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">going ?</button>
+                        }
+                        else
+                        {
+                            <button data-course-id="@course.Id" class="btn btn-info btn-sm js-toggle-attendance">Going </button>
+                        }
+
                     }
 
 
@@ -65,7 +73,7 @@
 
                 $(".js-toggle-follow").click(function (e) {
                     var button = $(e.target);
-                    $.post("/api/followings", { followeeId: button.attr("data-user-id") })
+                    $.post("/api/followings", { followeeId: button.attr("data-user-id") }) //$.post hoac get
                     .done(function () {
                         button.text("Following");
                     })
@@ -73,6 +81,7 @@
                         alert("Something failed");
                     });
                 });
+       
             });
 
 

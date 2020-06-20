@@ -217,6 +217,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecturerController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UnfollowController.cs" />
+    <Compile Include="Controllers\UngoingController.cs" />
     <Compile Include="DTOs\AttendanceDto.cs" />
     <Compile Include="DTOs\FollowingDto.cs" />
     <Compile Include="Global.asax.cs">

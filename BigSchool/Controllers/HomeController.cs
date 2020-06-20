@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using BigSchool.ViewModels;
+using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
 
 namespace BigSchool.Controllers
 {
@@ -20,15 +22,23 @@ namespace BigSchool.Controllers
         {
             var upcommingCourses = _dbContext.Courses.Include(c => c.Lecturer).Include(c => c.Category).Where(c => c.DateTime > DateTime.Now);
 
+         
+
+            var userId = User.Identity.GetUserId();
+
+            var attendanced = _dbContext.Attendances.Where(a => a.AttendeeId == userId)
+                                                    .Select(a => a.CourseId)
+                                                    .ToList();
+
+
             var viewModel = new CourseViewModel
             {
                 UpcommingCourses = upcommingCourses,
-                ShowAction = User.Identity.IsAuthenticated
+                ShowAction = User.Identity.IsAuthenticated,
+                attendances = attendanced
             };
 
             return View(viewModel);
-
-
         }
 
         public ActionResult About()
@@ -44,5 +54,30 @@ namespace BigSchool.Controllers
 
             return View();
         }
+
+        //public string GetAttendance()
+        //{
+        //    var userId = User.Identity.GetUserId();
+           
+        //    var attendanced = _dbContext.Attendances.Where(a => a.AttendeeId == userId)
+        //                                       .Include(a => a.CourseId)
+        //                                       .Include(a => a.Course.Id)
+        //                                       .Where(a=>a.CourseId==a.Course.Id)
+        //                                       .ToList();
+
+        //    var viewModel = new CourseViewModel
+        //    {
+        //        attendances = attendanced,
+        //    };
+
+            
+                
+     
+            
+            
+  
+        //}
+
+       
     }
 }
