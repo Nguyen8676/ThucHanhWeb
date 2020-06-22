@@ -5,94 +5,99 @@
 
 
 
-<div class="row">
-    <ul class="course">
-        @foreach(var course in Model.UpcommingCourses)
-        {
-            <li>
-                <div class="date">
-                    <div class="month">
-                        @course.DateTime.ToString("MM")
-                    </div>
-                    <div class="day">
-                        @course.DateTime.ToString("dd")
+    <div class="row">
+        <div class="md-form active-pink active-pink-2 mb-3 mt-0">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search"> <button type="submit" class="btn btn-primary mb-2">Search</button>
+
+        </div>
+
+        <ul class="course">
+            @foreach (var course in Model.UpcommingCourses)
+            {
+                <li>
+                    <div class="date">
+                        <div class="month">
+                            @course.DateTime.ToString("MM")
+                        </div>
+                        <div class="day">
+                            @course.DateTime.ToString("dd")
+                        </div>
+
                     </div>
 
-                </div>
-            
-                <div class="details">
-                    <span class="lecturer">
-                        @course.Lecturer.Name
+                    <div class="details">
+                        <span class="lecturer">
+                            @course.Lecturer.Name
+                            @if (Model.ShowAction)
+                            {
+                                if (!Model.followed.Any(p => p == course.LecturerId))
+                                {
+                                    <button class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Following</button>
+                                }
+
+                            }
+
+                        </span>
+                        <span class="category">
+                            @course.Category.Name
+                        </span>
                         @if (Model.ShowAction)
                         {
-                            if (!Model.followed.Any(p => p == course.LecturerId))
+                            if (!Model.attendances.Any(p => p == course.Id))
                             {
-                                <button class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                                <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">going ?</button>
                             }
                             else
                             {
-                                <button class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Following</button>
+                                <button data-course-id="@course.Id" class="btn btn-info btn-sm js-toggle-attendance">Going </button>
                             }
 
                         }
 
-                    </span>
-                    <span class="category">
-                        @course.Category.Name
-                    </span>
-                    @if (Model.ShowAction)
-                    {
-                        if (!Model.attendances.Any(p => p == course.Id))
-                        {
-                            <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">going ?</button>
-                        }
-                        else
-                        {
-                            <button data-course-id="@course.Id" class="btn btn-info btn-sm js-toggle-attendance">Going </button>
-                        }
 
-                    }
+                    </div>
+
+                </li>
+            }
 
 
-                </div>
-          
-            </li>
-        }
+        </ul>
 
-
-    </ul>
-
-    @section scripts
+        @section scripts
     {
-        <script>
-            $(document).ready(function () {
-                $(".js-toggle-attendance").click(function (e) {
-                    var button = $(e.target);
-                    $.post("/api/attendances", { courseId: button.attr("data-course-id") })
-                        .done(function () {
-                            button.removeClass("btn-default").addClass("btn-info").text("Going");
-                        })
-                        .fail(function () {
-                            alert("Something failed!");
-                        });
+            <script>
+                $(document).ready(function () {
+                    $(".js-toggle-attendance").click(function (e) {
+                        var button = $(e.target);
+                        $.post("/api/attendances", { courseId: button.attr("data-course-id") })
+                            .done(function () {
+                                button.removeClass("btn-default").addClass("btn-info").text("Going");
+                            })
+                            .fail(function () {
+                                alert("Something failed!");
+                            });
 
-                });
-
-
-                $(".js-toggle-follow").click(function (e) {
-                    var button = $(e.target);
-                    $.post("/api/followings", { followeeId: button.attr("data-user-id") }) //$.post hoac get
-                    .done(function () {
-                        button.text("Following");
-                    })
-                    .fail(function () {
-                        alert("Something failed");
                     });
+
+
+                    $(".js-toggle-follow").click(function (e) {
+                        var button = $(e.target);
+                        $.post("/api/followings", { followeeId: button.attr("data-user-id") }) //$.post hoac get
+                            .done(function () {
+                                button.text("Following");
+                            })
+                            .fail(function () {
+                                alert("Something failed");
+                            });
+                    });
+
                 });
-       
-            });
 
 
-        </script>
+            </script>
         }
-</div>
+    </div>
