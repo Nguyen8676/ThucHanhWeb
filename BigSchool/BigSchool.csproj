@@ -412,6 +412,7 @@
     <Content Include="Views\Courses\Attending.cshtml" />
     <Content Include="Views\Courses\Mine.cshtml" />
     <Content Include="Views\Lecturer\Following.cshtml" />
+    <Content Include="Views\Home\SearchByName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

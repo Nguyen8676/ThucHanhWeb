@@ -1,0 +1,12 @@
+﻿@model BigSchool.Models.Course
+@{
+    ViewBag.Title = "SearchByName";
+    ViewBag.Heading = "danh sach khoa hoc tim duoc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SearchByName</h2>
+ @foreach(var course in Model.Place)
+ {
+     @Html.Partial("View", course)
+ }

@@ -22,7 +22,7 @@ namespace BigSchool.Controllers
         {
             var upcommingCourses = _dbContext.Courses.Include(c => c.Lecturer).Include(c => c.Category).Where(c => c.DateTime > DateTime.Now && c.IsCanceled==false);
 
-         
+           
 
             var userId = User.Identity.GetUserId();
 
@@ -44,6 +44,14 @@ namespace BigSchool.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public ActionResult SearchByName(string name)
+        {
+            var courseList = _dbContext.Courses.Where(x => x.Place.Contains(name)).ToList();
+           
+           
+            return View(courseList);
         }
 
         public ActionResult About()

@@ -32,6 +32,8 @@ namespace BigSchool.ViewModels
         public List<int> attendances { get;set; }
         public List<string> followed { get; set; }
 
+        public IEnumerable<Course> courses { get; set; }
+
         public DateTime GetDateTime()
         {
             return DateTime.Parse(string.Format("{0} {1}", Date, Time));
