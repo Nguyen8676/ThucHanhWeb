@@ -30,12 +30,17 @@ namespace BigSchool.Controllers
                                                     .Select(a => a.CourseId)
                                                     .ToList();
 
+            var followeed = _dbContext.Followings.Where(a => a.FollowerId == userId)
+                                                .Select(a => a.FolloweeId)
+                                                .ToList();
+
 
             var viewModel = new CourseViewModel
             {
                 UpcommingCourses = upcommingCourses,
                 ShowAction = User.Identity.IsAuthenticated,
-                attendances = attendanced
+                attendances = attendanced,
+                followed = followeed 
             };
 
             return View(viewModel);

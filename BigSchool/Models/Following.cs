@@ -21,6 +21,9 @@ namespace BigSchool.Models
         public ApplicationUser Follower { get; set; }
         public ApplicationUser Followee { get; set; }
 
+        //public bool IsUnfollow { get; set; }
+
+
         
 
 

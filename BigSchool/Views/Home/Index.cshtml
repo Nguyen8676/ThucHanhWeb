@@ -25,7 +25,15 @@
                         @course.Lecturer.Name
                         @if (Model.ShowAction)
                         {
-                            <button class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                            if (!Model.followed.Any(p => p == course.LecturerId))
+                            {
+                                <button class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Following</button>
+                            }
+
                         }
 
                     </span>

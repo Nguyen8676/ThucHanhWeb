@@ -15,7 +15,7 @@
                         @lecturer.Name
                         @if (Model.ShowAction)
                         {
-                            <button data-user-id="@lecturer.Id" class="btn btn-default btn-sm js-toggle-follow">Follow</button>
+                            <button data-user-id="@lecturer.Id" class="btn btn-info btn-sm js-toggle-follow following">UnFollow</button>
 
                         }
                     </span>
@@ -40,17 +40,41 @@
                             alert("Sth failed!");
                         });
                 });
+                //$(".js-toggle-unfollow").click(function (e) {
+                //    var button = $(e.target);
+                //    $.post("/api/unfollow", { followeeId: button.attr("data-user-id") })
+                //        .done(function () {
+                //            button.removeClass("btn-info").addClass("btn-default").text("follow");
+                //        })
+                //        .fail(function () {
+                //            alert("Sth failed!");
+                //        });
+                //});
+
+
                 $(".js-toggle-follow").click(function (e) {
                     var button = $(e.target);
-                    $.post("/api/followings", { followeeId: button.attr("data-user-id") })
-                        .done(function () {
-                            button.text("Following");
-                        })
-                        .fail(function () {
-                            alert("Sth failed!");
-                        });
-                });
+                    if (button.hasClass("following")) {
+                        bootbox.confirm("Are u sure to unfollow this lecturer?",
+                            function () {
+                                $.ajax({
+                                    url: "/api/unfollow/" + button.attr("data-user-id"),
+                                    method: "DELETE"
+                                })
+                                    .done(function () {
+                                        button
+                                            .removeClass("btn-info following")
+                                            .addClass("btn-default")
+                                            .text("Follow");
+                                    })
+                                    .fail(function () {
+                                        alert("Sth failed.");
+                                    });
+                            });
+                    }
+                   
 
+                });
             
 
             });

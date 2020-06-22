@@ -13,7 +13,7 @@ namespace BigSchool.Controllers.Api
    
     public class CoursesController : ApiController
     {
-        private  ApplicationDbContext _dbContext;
+        private  ApplicationDbContext _dbContext { get; set; }
         public CoursesController()
         {
             _dbContext = new ApplicationDbContext();

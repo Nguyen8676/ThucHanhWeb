@@ -7,21 +7,23 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace BigSchool.Controllers
+namespace BigSchool.Controllers.Api
 {
     public class UnfollowController : ApiController
     {
-        private ApplicationDbContext _dbContext;
+        private ApplicationDbContext _dbContext { get; set; }
         public UnfollowController()
         {
             _dbContext = new ApplicationDbContext();
         }
 
         [HttpDelete]
-        public IHttpActionResult Unfollow(string idfollower ,string idfollowee,int id)
+        public IHttpActionResult DeleteFollow(string id)
         {
             var userId = User.Identity.GetUserId();
-            var course = _dbContext.Followings.Single(c => c.FollowerId == idfollower && c.FolloweeId == idfollowee);
+            var course = _dbContext.Followings.Single(c => c.FollowerId == userId && c.FolloweeId == id);
+
+
             _dbContext.Followings.Remove(course);
             _dbContext.SaveChanges();
             return Ok();
